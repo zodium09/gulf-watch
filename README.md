@@ -1,5 +1,7 @@
 # Gulf Watch — อ่าวไทยตอนใน
 
+เว็บ production: https://gulf-watch-rouge.vercel.app/
+
 แดชบอร์ดสาธารณะภาษาไทย สำหรับเฝ้าระวังความขุ่นและแพลงก์ตอนบลูมเบื้องต้น พร้อมแผนที่สี สรุปพิกเซลระดับสูง แนวโน้ม 6 วัน ข้อมูลสถานีน้ำท่า CSV และ iframe ใช้ Next.js บน Vercel
 
 ## อัปเดตรายวัน
@@ -39,10 +41,10 @@ npm run build
 
 ## ฝังในเว็บไซต์
 
-แทน `YOUR-VERCEL-URL` ด้วย production URL:
+ใช้ production URL เดิมได้ทุกวัน:
 
 ```html
-<iframe src="https://YOUR-VERCEL-URL/?embed=1" title="Gulf Watch — อ่าวไทยตอนใน" width="100%" height="1080" style="border:0;border-radius:16px" loading="lazy"></iframe>
+<iframe src="https://gulf-watch-rouge.vercel.app/?embed=1" title="Gulf Watch — อ่าวไทยตอนใน" width="100%" height="1080" style="border:0;border-radius:16px" loading="lazy"></iframe>
 ```
 
 มุมมอง embed มีวันที่ข้อมูลและระดับความเชื่อมั่น ไม่มี X-Frame-Options ที่ปิดการฝัง
@@ -50,3 +52,4 @@ npm run build
 ## ใบอนุญาตข้อมูล
 
 ข้อมูลสาธารณะยังอยู่ภายใต้เงื่อนไขผู้ให้บริการ ตรวจ Copernicus Marine, Open-Meteo, Thaiwater และ Natural Earth ก่อนใช้งานเชิงพาณิชย์ ฟอนต์ IBM Plex Sans Thai แนบ OFL ไว้ใน `public/fonts/OFL.txt`
+

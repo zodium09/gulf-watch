@@ -25,7 +25,7 @@ export default function Home(){
  const area=data.areas.find((a:any)=>a.id===areaId)??data.areas[0],daily=data.days[day];
  const cells=useMemo(()=>data.cells.map((c:any,i:number)=>({...c,...daily.cells[i]})),[data,daily]);
  const chosen=useMemo(()=>point?cells.find((c:any)=>c.id===point):cells.reduce((a:any,b:any)=>dist(a,area)<dist(b,area)?a:b),[cells,area,point]);
- const level=chosen?.[mode==='spm'?'turbidity':mode],stale=data.isStale??data.issueDate!==today();
+ const level=chosen?.[mode==='spm'?'turbidity':mode],stale=data.isStale??(network==='loading'?false:data.issueDate!==today());
  const station=data.rivers.stations.find((s:any)=>s.code===area.gauge);
  const select=(id:string)=>{setAreaId(id);setPoint(null)};
  const chooseCell=(c:any)=>{const nearest=data.areas.reduce((a:any,b:any)=>dist(a,c)<dist(b,c)?a:b);setAreaId(nearest.id);setPoint(c.id);setPlaying(false)};
@@ -40,7 +40,7 @@ export default function Home(){
  const [bx,by]=xy(data.bbox[0],data.bbox[3]);
  return <div className={embed?'app is-embed':'app'}>
   <header className="topbar"><a className="brand" href="/" aria-label="Gulf Watch หน้าหลัก"><span className="brand-icon"><Waves size={27}/></span><span>Gulf<span className="brand-light">Watch</span><small>อ่าวไทยตอนใน</small></span></a><nav aria-label="เมนูหลัก"><a href="#method">ข้อมูลและวิธีอ่าน<ArrowUpRight size={15}/></a><button className="outline-button" onClick={()=>{setShowEmbed(true);setTimeout(()=>document.getElementById('embed')?.scrollIntoView({behavior:'smooth',block:'center'}),40)}}><Code2 size={17}/>ฝังบนเว็บไซต์</button></nav></header>
-  <main><section className="intro"><div><h1>มองอ่าวไทยล่วงหน้า<span className="title-dot">.</span></h1><p>สรุปความขุ่น แพลงก์ตอน และน้ำจืดจากข้อมูลสาธารณะ</p></div><div className="update-meta"><span className={'status '+(stale||data.publicationStatus?.state==='failed'?'status-warn':'')}><i/>{stale?'ชุดข้อมูลเก่า':data.publicationStatus?.state==='failed'?'อัปเดตล่าสุดไม่สำเร็จ':'ข้อมูลชุดล่าสุด'}</span><span><Clock3 size={13}/>คำนวณ {when(data.generatedAt)} น.</span><small className="schedule-note">อัปเดตรายวันประมาณ 07:15 น. เวลาไทย</small></div></section>
+  <main><section className="intro"><div><h1>มองอ่าวไทยล่วงหน้า<span className="title-dot">.</span></h1><p>สรุปความขุ่น แพลงก์ตอน และน้ำจืดจากข้อมูลสาธารณะ</p></div><div className="update-meta"><span className={'status '+(stale||data.publicationStatus?.state==='failed'?'status-warn':'')}><i/>{stale?'ชุดข้อมูลเก่า':data.publicationStatus?.state==='failed'?'อัปเดตล่าสุดไม่สำเร็จ':network==='loading'?'กำลังตรวจข้อมูล':'ข้อมูลชุดล่าสุด'}</span><span><Clock3 size={13}/>คำนวณ {when(data.generatedAt)} น.</span><small className="schedule-note">อัปเดตรายวันประมาณ 07:15 น. เวลาไทย</small></div></section>
   {(stale||network==='error'||data.publicationStatus?.state==='failed')&&<div className="notice" role="status"><Info size={17}/><span>{stale?'ข้อมูลคำนวณยังไม่ใช่วันนี้ กรุณาตรวจวันที่ก่อนใช้งาน':network==='error'?'เชื่อมต่อข้อมูลล่าสุดไม่ได้ กำลังแสดงชุดข้อมูลที่มีอยู่':'แหล่งข้อมูลอัปเดตขัดข้อง กำลังแสดงผลสำเร็จครั้งก่อน'}</span><button onClick={reload}>ลองเชื่อมต่ออีกครั้ง</button></div>}
   <Overview data={data} day={day} setDay={n=>{setDay(n);setPlaying(false)}} select={select}/><section className="workspace" id="forecast-map" aria-label="แผนที่พยากรณ์"><div className="map-column"><div className="map-toolbar"><div className="layer-tabs" role="tablist" aria-label="เลือกชั้นข้อมูล">{(Object.keys(modes) as Array<keyof typeof modes>).map(k=><button key={k} role="tab" aria-selected={mode===k} className={mode===k?'active':''} onClick={()=>setMode(k)}>{k==='spm'&&<Satellite size={15}/>} {modes[k]}</button>)}</div><span className="confidence"><Info size={13}/>ความเชื่อมั่นต่ำ</span></div>
   <div className="map-frame"><div className="map-heading"><span>{mode==='spm'?'ข้อมูลสังเกตจากดาวเทียม':'ระดับเฝ้าระวังสัมพัทธ์'}</span><strong>{mode==='spm'?`${date(data.observationRange[0],true)} – ${date(data.observationRange[1],true)}`:date(daily.date)}</strong></div>
@@ -67,5 +67,6 @@ export default function Home(){
   </main><footer><a className="footer-brand" href="/">GulfWatch<span>อ่านทะเลให้รอบด้าน</span></a><div><span>แหล่งข้อมูลสาธารณะ</span><a href="https://marine.copernicus.eu/" target="_blank" rel="noreferrer">Copernicus Marine</a><a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a><a href="https://www.thaiwater.net/" target="_blank" rel="noreferrer">Thaiwater</a><a href="https://www.naturalearthdata.com/" target="_blank" rel="noreferrer">Natural Earth</a></div><p>ผลคัดกรองเบื้องต้น · ไม่ใช่ประกาศเตือนภัยอย่างเป็นทางการ</p></footer>
  </div>
 }
+
 
 
