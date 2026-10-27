@@ -1,0 +1,39 @@
+name: Update Gulf Watch data
+on:
+  schedule:
+    # 00:15 UTC = 07:15 Asia/Bangkok. GitHub may delay scheduled jobs.
+    - cron: '15 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+concurrency:
+  group: gulf-watch-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Fetch and validate real public data
+        id: refresh
+        continue-on-error: true
+        run: node scripts/update-data.mjs
+      - name: Publish data and update status
+        run: |
+          git config user.name "gulf-watch-bot"
+          git config user.email "245102958+zodium09@users.noreply.github.com"
+          git add public/data/latest.json public/data/status.json
+          if ! git diff --cached --quiet; then
+            git commit -m "data: refresh Gulf Watch observations and forecast"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Report source failure
+        if: steps.refresh.outcome == 'failure'
+        run: exit 1
