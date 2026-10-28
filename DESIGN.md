@@ -1,188 +1,151 @@
 ---
 name: Gulf Watch
-description: A quiet Thai coastal monitoring desk, led by the map and its evidence.
+description: A bright Thai marine atlas for the general public.
 colors:
-  ink: "#203f44"
-  muted: "#5a7274"
-  teal: "#1e615f"
-  paper: "#fafbf8"
-  line: "#dde5df"
-  surface: "#fff"
-  sea: "#e4eff0"
-  land: "#f5f3ec"
+  ink: "#163f54"
+  muted: "#526c7b"
+  teal: "#007c87"
+  ocean: "#096eac"
+  paper: "#f0f7fa"
+  surface: "#ffffff"
+  line: "#d5e5eb"
+  sea: "#d8f2f8"
+  land: "#f7faf1"
+  wave-surface: "#def0fc"
+  wind-surface: "#daf3ed"
+  rain-surface: "#eee9fa"
+  sst-surface: "#ffeddc"
   no-data: "#d4dfe0"
-  selected-soft: "#e8f0e9"
-  focus: "#358b91"
-  class-1: "#407ca8"
-  class-2: "#509b80"
-  class-3: "#e3bd52"
-  class-4: "#df8d4e"
-  class-5: "#c85c50"
+  focus: "#cf7d15"
 typography:
-  headline:
+  display:
     fontFamily: "'IBM Plex Sans Thai', sans-serif"
-    fontSize: "35px"
-    fontWeight: 500
-    lineHeight: 1.4
+    fontSize: "42px"
+    fontWeight: 600
+    lineHeight: 1.3
     letterSpacing: "-1px"
   title:
     fontFamily: "'IBM Plex Sans Thai', sans-serif"
-    fontSize: "21px"
-    fontWeight: 500
+    fontSize: "23px"
+    fontWeight: 600
+    lineHeight: 1.4
   body:
     fontFamily: "'IBM Plex Sans Thai', sans-serif"
     fontSize: "14px"
-    lineHeight: 1.6
-  label:
+    lineHeight: 1.65
+  measurement:
     fontFamily: "'IBM Plex Sans Thai', sans-serif"
-    fontSize: "12px"
-    fontWeight: 500
-  code:
-    fontFamily: "monospace"
-    fontSize: "12px"
+    fontSize: "34px"
+    fontWeight: 600
+    lineHeight: 1.2
 rounded:
-  workspace: "14px"
-  control: "8px"
-  tab: "6px"
-  date: "7px"
-  pill: "20px"
+  surface: "16px"
+  metric: "12px"
+  control: "9px"
+  selection: "7px"
 spacing:
-  compact-gap: "7px"
-  control-gap: "9px"
-  group-gap: "12px"
-  panel: "24px"
+  desktop-gutter: "44px"
+  mobile-gutter: "16px"
+  metric-gap: "14px"
+  inspector: "23px"
 components:
   button-primary:
     backgroundColor: "{colors.teal}"
     textColor: "{colors.surface}"
     rounded: "{rounded.control}"
-    padding: "10px 17px"
+    padding: "11px 17px"
   button-outline:
-    backgroundColor: "transparent"
+    backgroundColor: "{colors.surface}"
     textColor: "{colors.ink}"
     rounded: "{rounded.control}"
-    padding: "10px 17px"
-  layer-tab-selected:
-    backgroundColor: "{colors.selected-soft}"
-    rounded: "{rounded.tab}"
-    padding: "9px 12px"
+    padding: "11px 17px"
   workspace:
     backgroundColor: "{colors.surface}"
-    rounded: "{rounded.workspace}"
-  area-select:
-    backgroundColor: "{colors.surface}"
-    typography: "{typography.title}"
-    padding: "6px 0 9px"
-    width: "100%"
-  code-field:
-    backgroundColor: "{colors.surface}"
-    typography: "{typography.code}"
-    rounded: "{rounded.tab}"
-    padding: "12px"
-    width: "100%"
+    rounded: "{rounded.surface}"
+  wave-metric:
+    backgroundColor: "{colors.wave-surface}"
+    rounded: "{rounded.metric}"
+    padding: "19px 22px 16px"
 ---
 
 # Design System: Gulf Watch
 
 ## Overview
 
-**Creative North Star: "The Quiet Coastal Monitoring Desk"**
+**Creative North Star: "A Marine Atlas for Everyone"**
 
-Pale sea, warm land, dark marine text and restrained teal controls frame a map-led Thai reading experience. A reference-area panel sits beside the map, with observations, units and source dates close to the selected result. This is a calm working surface with compact supporting information.
-
-This is a code-led record of `app/globals.css` and `app/page.tsx`, informed by `PRODUCT.md` and the supplied direction. No approved visual comp or context/detector validation is available. It records implemented visual patterns, not certification of contrast, usability or forecasting capability.
+Bright ocean blue and turquoise make the Thai public dashboard approachable, while white working panels keep measurements and explanations readable. This replaces the earlier quiet coastal desk identity under the user's redesign request. Locally hosted Thai type, physical units, observed dates, and missing-data states remain binding product constraints.
 
 **Key Characteristics:**
-- Map dominance with a subordinate reference-area panel.
-- Thai-first typography, explicit units and visible data age.
-- Flat surfaces, fine dividers and small curved controls.
-- Responsive public and iframe views.
+- Map and point inspector form one working surface.
+- Four tinted measurement buttons distinguish wave, wind, rain, and sea temperature.
+- Interactive dates and charts share the selected point and day.
+- Technical methods remain available through readable disclosures.
+
+Code and captured desktop/mobile output are the evidence. No approved image comp or automated design-detector certification is claimed.
 
 ## Colors
 
-The palette combines cool water and warm land with a restrained control accent; the five data classes have a separate sequential legend.
-
 ### Primary
-- **Coastal Teal** (`teal`): primary actions, selected dates, refresh links and brand mark.
-- **Soft Selected Green** (`selected-soft`): selected layer tabs, with stronger text and weight.
+Ocean carries the masthead; teal carries actions and selected controls. Avoid interpreting interface accents as hazard classes.
 
 ### Secondary
-- **Screening Classes** (`class-1` through `class-5`): blue, green, yellow, orange and red map cells and legend swatches, in that order. These encode relative classes or the SPM thresholds shown by the current legend.
+Wave blue, wind mint, rain lavender, and temperature apricot identify physical variables. Rain, SST, and activity map layers have their own five-bin palettes in `lib/display.mjs`; shared screening colours are reused by the ecosystem overview.
 
 ### Neutral
-- **Marine Ink / Muted Marine** (`ink`, `muted`): primary text and supporting labels.
-- **Paper / White Surface / Fine Divider** (`paper`, `surface`, `line`): page, workspace and section boundaries.
-- **Pale Sea / Warm Land** (`sea`, `land`): geographic base layers.
-- **Missing Observation Grey** (`no-data`): insufficient observations, with a distinct legend entry.
-- **Focus Teal** (`focus`): keyboard focus outlines.
+Marine ink and muted blue-grey sit on cool paper and white panels. Pale sea and warm light land support the geographic view. Grey means missing observations, never a low class.
 
-**The Evidence Colour Rule.** Keep missing data distinct from the five classes, and retain the visible legend and low-confidence context when displaying class colours.
+**The Evidence Colour Rule.** Every map colour must retain its layer-specific legend, unit or class label, and source context. Activity labels include words as well as colour.
 
 ## Typography
 
-Use locally served IBM Plex Sans Thai with a sans-serif fallback for interface text and map labels. The only contrasting family is monospace for iframe code. Weight, size and spacing establish hierarchy without a second display face.
+IBM Plex Sans Thai is served locally with a sans-serif fallback. Use tabular numerals for physical measurements and tables; monospace is reserved for iframe HTML.
 
-- **Headline:** main introduction; reduces to (29px) on mobile and (25px) in the desktop iframe.
-- **Title:** prominent reference-area selector; section headings use their observed (22–27px) range.
-- **Body:** general Thai reading; method paragraphs use (12px), line height (1.9), and a maximum width of (66ch).
-- **Label:** panel headings and compact controls. Supporting metadata varies by context; do not treat the smallest incidental labels as a universal type scale.
-- **Data values:** tabular numerals; panel values (15px), with the selected result at (35px), reducing to (30px) on mobile.
+The display is (46px) above (1450px), (36px) at or below (1190px), (34px) on phones, and (30px) below (360px). Secondary metadata uses observed compact (10–12px) roles; these are not a recommended universal body size. Method paragraphs use (12px), line height (1.95), and a maximum (75ch) measure.
 
 ## Layout
 
-The centered application is capped at (1540px), with desktop side padding (44px). The workspace uses a flexible map column and a fixed reference panel (312px). Its shared border and clipped corners make it one surface. The map is (520px) tall by default and (610px) from a viewport width of (1450px).
+The page is capped at (1568px). Desktop gutter is (44px), reducing to (25px) below (1190px) and (16px) below (760px). The map/inspector grid has a (325px) inspector, then (285px) and (265px) at the (1190px)/(900px) breakpoints. Below (760px), the inspector stacks after the map, measurements become a two-column grid, and layer controls become four columns.
 
-At (1150px) and below, page padding becomes (25px), the panel narrows to (274px), and the confidence label in the toolbar is hidden; low-confidence context remains in the result panel. At (760px) and below, page padding becomes (16px), the map and reference panel stack, the map uses an aspect ratio of (1 / 1.13), and observation/environment groups sit in two columns within the panel. Navigation becomes compact and source metadata wraps.
-
-The public iframe view reduces surrounding chrome and hides method, embed instructions and footer. Its desktop map is (500px) tall. On mobile, retain the compact reference panel: the final stylesheet override displays it as a grid. Keep source dates and update state attached to the working surface in both modes.
+Map height is (580px) normally, (650px) on wide screens, (600px)/(560px) at intermediate widths, and an aspect ratio of (1 / 1.1) on phones. The embedded view removes surrounding hero, charts, methods and footer but retains working controls, detail, dates, and data-generation time.
 
 ## Elevation & Depth
 
-Most surfaces are flat. Paper, white panels, tinted selections and fine borders provide separation. The floating map-control cluster has the single structural shadow (`0 3px 12px #1e414415`). Do not generalize this shadow to every panel.
+Tone and fine borders provide most separation. Map controls use (0 4px 16px #1a536225). Selected coast controls use (0 2px 5px #28556c0f). Metric hover uses (0 5px 15px #164d5c12). These are interaction/elevation roles, not universal container shadows.
 
-Motion is functional: map cells transition fill over (.25s), a loading refresh icon spins over (1s), and in-page navigation scrolls smoothly. The reduced-motion media query removes animation, transitions and smooth scrolling.
+The compass makes one entrance rotation over (1.2s). Cells change fill over (.3s), bars change height over (.4s), and loading refresh rotates over (1s). Reduced-motion disables animation, transitions and smooth scrolling; explicit scroll actions also respect the preference.
 
 ## Shapes
 
-Use the workspace radius for the shared map/panel shell, the control radius for buttons and floating map controls, and smaller corners for tabs, dates and the code field. Status chips are pills; the brand and playback control are circles. Reference-area selection uses a flat underline and square corners. Avoid turning every information group into a separate rounded card.
+Main surfaces use gently curved (16px) corners. Measurements use (12px), controls (7–9px), status chips pills, and playback a circular button. Keep geographic contours factual rather than decorative.
 
 ## Components
 
-### Buttons
-Primary actions are teal with white text; outline actions use a transparent background and a fine green-grey border. Both use compact icon/text alignment, (13px) text and the shared control padding. Primary hover deepens to `#174b4a`; outline hover uses `#e9f0e9`. Disabled buttons reduce opacity to (.45). Keyboard focus uses a (3px) outline with (4px) offset.
+### Buttons and inputs
+Primary buttons are teal with white text; outlines use white and the fine divider colour. Disabled controls reduce opacity to (.5). Focus uses a (3px) amber outline with (4px) offset. Selection tint, scrollbar colours, native input accent and textarea caret are themed.
 
-### Layer tabs and timeline
-Layer tabs are quiet text controls, with a soft selected fill and stronger type. Selected dates use the solid teal fill. Retain selected-state semantics and visible labels; the SPM observation view disables forecast playback/date controls and dims the timeline.
+### Navigation and disclosures
+Desktop navigation links jump to the map, outlook and method sections. Mobile keeps the brand and labelled embed icon. Native details/summary controls reveal methods, ecosystem context and numeric tables without interrupting exploration.
 
-### Status chips and notices
-Publication status pairs a short label with a dot. Old or failed data uses a warm amber treatment; a nearby notice supplies explanation and retry action. Status is communicated in text as well as colour.
+### Geographic workspace
+Layer buttons, label/direction toggles, map, legend, coverage counts and timeline stay adjacent. The SVG map supports pointer dragging, zoom/reset, selectable reference areas and arrow-key pixel selection. Cells remain clipped to the Thai marine boundary. Pointer scale must account for SVG letterboxing.
 
-### Workspace and reference panel
-The shared white shell contains the map, legend, date controls and reference panel. The panel uses section dividers rather than nested cards. Keep selected coordinates, source observation dates, units and the explanatory result note visible. The reference-area selector is prominent and full width; river context uses a native disclosure.
+### Point inspector and forecast
+The area selector and coordinates identify the actual selected marine pixel. Measurement and activity explanations remain near the values. Charts compare one variable for one point across six days; axes start at zero and the complete numerical table is available. Missing values are visibly different from zero.
 
-### Inputs and code field
-The area selector uses a white background and bottom border. The read-only iframe textarea uses monospace, a full border and small corners; its container has a pale green fill. Both inherit the global keyboard focus treatment. No custom input error system is established.
-
-### Navigation
-Desktop header navigation combines a muted text link and outline embed action. Mobile hides the text link and reduces the embed action to its icon. The iframe hides header navigation. Preserve accessible names when labels are visually condensed.
-
-### Map
-Use a pale sea base, warm land, data cells, restrained geographic labels and a discrete selected-pixel outline. Reference markers support selection; the SVG map supports arrow-key pixel selection. Legend, dates, compass and approximate scale explain the view. Map labels have explicit desktop/mobile sizes; these are map annotation roles, not the page type scale.
+### Publication and activity state
+Old or failed publications keep physical data visible with a notice and disable activity conclusions. A newer bundled dataset does not erase a failed publication status. Tourism and boat panels share the disclosed unvalidated weather screen; design must not imply official clearance or two independent indices.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep the map visually dominant and reference details close to it.
-- **Do** pair data colours with a legend, units, source dates and confidence context.
-- **Do** preserve Thai text, tabular values and visible keyboard focus.
-- **Do** check the final mobile and iframe cascade when extending shared styles.
+- **Do** keep units, selected day, coordinates and source dates near results.
+- **Do** use the same class colours in map and related overview.
+- **Do** retain keyboard focus, reduced motion, and mobile/iframe provenance.
 
 ### Don't:
-- **Don't** use the five data-class colours as general action accents.
-- **Don't** render missing observations as the lowest class or as zero.
-- **Don't** add shadows or separate cards to every reference-panel section.
-- **Don't** imply a current observation by removing its date or stale-data state.
+- **Don't** turn missing data into zero or a favourable activity judgement.
+- **Don't** present screening as accident probability, a validated tourism index, or permission to sail.
+- **Don't** describe SST as air temperature, water safety, or a climate anomaly.
 
-## National marine extension
-
-Keep the established coastal desk identity. Add region controls (all Thai EEZ, Gulf, Andaman), physical-unit wave/wind layers, directional arrows at peak hours, and a point forecast table. The EEZ mask clips all coloured cells. Missing satellite data must never hide available wave/wind data. Nationwide sampling is ~12 km from the native ~4 km ocean-colour grid. Forecast colours for wave/wind are value bins, while bloom/turbidity remain relative uncalibrated classes within each basin.
+The independent reviewer cleared the listed material fixes. Computed contrast certification, assistive-technology testing and production-feed recovery are not claimed. Development-only Next.js badges are not part of the design system.

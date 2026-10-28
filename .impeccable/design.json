@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-28T06:50:16.413Z",
+  "title": "Design System: Gulf Watch",
+  "extensions": {
+    "shadows": [
+      {
+        "name": "map-controls",
+        "value": "0 4px 16px #1a536225",
+        "purpose": "Floating map controls"
+      },
+      {
+        "name": "coast-selected",
+        "value": "0 2px 5px #28556c0f",
+        "purpose": "Selected coast"
+      },
+      {
+        "name": "metric-hover",
+        "value": "0 5px 15px #164d5c12",
+        "purpose": "Measurement hover"
+      }
+    ],
+    "motion": [
+      {
+        "name": "compass",
+        "value": "1.2s cubic-bezier(.16,1,.3,1)",
+        "purpose": "One entrance rotation"
+      },
+      {
+        "name": "bar",
+        "value": "height .4s cubic-bezier(.16,1,.3,1)",
+        "purpose": "Forecast variable changes"
+      },
+      {
+        "name": "cell",
+        "value": "fill .3s ease",
+        "purpose": "Data layer/day updates"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "width-360",
+        "value": "360px"
+      },
+      {
+        "name": "width-760",
+        "value": "760px"
+      },
+      {
+        "name": "width-900",
+        "value": "900px"
+      },
+      {
+        "name": "width-1190",
+        "value": "1190px"
+      },
+      {
+        "name": "width-1450",
+        "value": "1450px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Teal action with explicit label",
+      "html": "<button class=\"ds-control ds-primary\">รับโค้ดฝังแผนที่</button>",
+      "css": ".ds-primary{font:500 13px \"IBM Plex Sans Thai\",sans-serif;padding:11px 17px;background:var(--teal,#007c87);color:#fff;border:0;border-radius:9px;cursor:pointer}.ds-primary:hover{background:#00616b}.ds-control:focus-visible{outline:3px solid #cf7d15;outline-offset:4px}"
+    },
+    {
+      "name": "Outline button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action",
+      "html": "<button class=\"ds-control ds-outline\">ดาวน์โหลดข้อมูล CSV</button>",
+      "css": ".ds-outline{font:500 13px \"IBM Plex Sans Thai\",sans-serif;padding:11px 17px;background:#fff;color:var(--ink,#163f54);border:1px solid #d5e5eb;border-radius:9px;cursor:pointer}.ds-outline:hover{background:#e3f2f6}.ds-control:focus-visible{outline:3px solid #cf7d15;outline-offset:4px}"
+    },
+    {
+      "name": "Area selector",
+      "kind": "input",
+      "description": "Point-inspector reference area",
+      "html": "<label for=\"ds-area\">พื้นที่ที่สนใจ</label><select id=\"ds-area\" class=\"ds-control ds-area\"><option>ภูเก็ต</option><option>เกาะสมุย</option></select>",
+      "css": ".ds-area{display:block;width:100%;font:500 21px \"IBM Plex Sans Thai\",sans-serif;color:var(--ink,#163f54);border:0;border-bottom:1px solid #d5e5eb;padding:4px 0 9px;background:#fff}.ds-area:hover{background:#f0f7fa}.ds-control:focus-visible{outline:3px solid #cf7d15;outline-offset:4px}"
+    },
+    {
+      "name": "Publication status",
+      "kind": "chip",
+      "description": "Text plus dot; warning status remains explicit",
+      "html": "<span class=\"ds-status\"><i></i>ข้อมูลชุดล่าสุด</span>",
+      "css": ".ds-status{display:inline-flex;align-items:center;gap:6px;background:#e0fff3;color:#096650;border-radius:20px;padding:4px 12px;font:500 11px \"IBM Plex Sans Thai\",sans-serif}.ds-status i{height:6px;width:6px;border-radius:50%;background:currentColor}"
+    },
+    {
+      "name": "Layer navigation",
+      "kind": "nav",
+      "description": "Visible named data layers with pressed state",
+      "html": "<div class=\"ds-layers\"><button class=\"ds-control\" aria-pressed=\"true\">คลื่น</button><button class=\"ds-control\" aria-pressed=\"false\">ฝน</button></div>",
+      "css": ".ds-layers{display:flex;gap:5px}.ds-layers button{font:12px \"IBM Plex Sans Thai\",sans-serif;padding:9px 10px;border:0;border-radius:7px;color:#526c7b;background:transparent;cursor:pointer}.ds-layers button:hover{background:#edf6f9}.ds-layers button[aria-pressed=true]{background:#007f8e;color:#fff}.ds-control:focus-visible{outline:3px solid #cf7d15;outline-offset:4px}"
+    },
+    {
+      "name": "Wave measurement",
+      "kind": "card",
+      "refersTo": "wave-metric",
+      "description": "Physical measurement linked to the map layer; illustrative sample",
+      "html": "<button class=\"ds-control ds-metric\"><span>ความสูงคลื่น · ตัวอย่าง</span><strong>1.4 <small>ม.</small></strong><span>สูงสุดของคลื่นนัยสำคัญ</span></button>",
+      "css": ".ds-metric{font:13px \"IBM Plex Sans Thai\",sans-serif;text-align:left;background:#def0fc;border:0;border-radius:12px;padding:19px 22px 16px;color:#163f54;cursor:pointer}.ds-metric strong{display:block;font-size:34px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2;margin:10px 0 7px}.ds-metric small{font-size:13px;font-weight:400}.ds-metric:hover{box-shadow:0 5px 15px #164d5c12}.ds-control:focus-visible{outline:3px solid #cf7d15;outline-offset:4px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "A Marine Atlas for Everyone",
+    "overview": "Bright ocean blue and turquoise make the Thai public dashboard approachable, while white working panels keep measurements and explanations readable. This replaces the earlier quiet coastal desk identity under the user’s redesign request.",
+    "keyCharacteristics": [
+      "Map and point inspector form one working surface.",
+      "Four tinted measurement buttons distinguish wave, wind, rain, and sea temperature.",
+      "Interactive dates and charts share the selected point and day.",
+      "Technical methods remain available through readable disclosures."
+    ],
+    "rules": [
+      {
+        "name": "The Evidence Colour Rule",
+        "body": "Every map colour must retain its layer-specific legend, unit or class label, and source context. Activity labels include words as well as colour.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do keep units, selected day, coordinates and source dates near results.",
+      "Do use the same class colours in map and related overview.",
+      "Do retain keyboard focus, reduced motion, and mobile/iframe provenance."
+    ],
+    "donts": [
+      "Don’t turn missing data into zero or a favourable activity judgement.",
+      "Don’t present screening as accident probability, a validated tourism index, or permission to sail.",
+      "Don’t describe SST as air temperature, water safety, or a climate anomaly."
+    ]
+  }
+}

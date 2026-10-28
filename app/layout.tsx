@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Gulf Watch — อ่าวไทยและอันดามัน",
-  description: "พยากรณ์คลื่นลม ความขุ่นและแพลงก์ตอน ครอบคลุมทะเลไทยทั้งอ่าวไทยและอันดามัน อัปเดตรายวัน",
+  description: "แผนที่ทะเลไทยแบบโต้ตอบ พยากรณ์คลื่น ลม ฝน อุณหภูมิผิวน้ำ และคัดกรองปัจจัยอากาศสำหรับกิจกรรมทะเล พร้อมหลักการและแหล่งข้อมูล",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

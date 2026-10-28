@@ -51,3 +51,11 @@ test('validation rejects impossible coordinates and stale observations and recal
   const reference = validateSnapshot(structuredClone(snapshot), now);
   assert.deepEqual(corrected.days, reference.days);
 });
+
+test('a newer bundled snapshot must preserve a failed public refresh status',async()=>{
+ const remote={...snapshot,generatedAt:new Date(Date.parse(snapshot.generatedAt)-3600000).toISOString()};
+ const result=await readPublication(snapshot,async url=>Response.json(url.endsWith('latest.json')?remote:{state:'failed',retainedPrevious:true}));
+ assert.equal(result.publicationSource,'bundled_newer');
+ assert.equal(result.generatedAt,snapshot.generatedAt);
+ assert.equal(result.publicationStatus.state,'failed');
+});
