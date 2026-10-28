@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Gulf Watch — มองอ่าวไทยล่วงหน้า",
-  description: "แผนที่เฝ้าระวังความขุ่นและแพลงก์ตอนบลูม อ่าวไทยตอนใน จากดาวเทียมและพยากรณ์อากาศ อัปเดตรายวัน",
+  title: "Gulf Watch — อ่าวไทยและอันดามัน",
+  description: "พยากรณ์คลื่นลม ความขุ่นและแพลงก์ตอน ครอบคลุมทะเลไทยทั้งอ่าวไทยและอันดามัน อัปเดตรายวัน",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

@@ -21,7 +21,7 @@ export default function Overview({data, day, setDay, select}: {data: any; day: n
   });
   const focus = [...areas].sort((a: any, b: any) => Math.max(b.turbidity ?? 0, b.bloom ?? 0) - Math.max(a.turbidity ?? 0, a.bloom ?? 0)).slice(0, 4);
   return <section className="overview" aria-label="สรุปข้อมูลประจำวัน">
-    <div className="overview-heading"><h2>ภาพรวมวันที่เลือก</h2><span>{shortDate(data.dates[day])} · ระดับสัมพัทธ์ภายในอ่าว</span></div>
+    <div className="overview-heading"><h2>ภาพรวมวันที่เลือก</h2><span>{shortDate(data.dates[day])} · ระดับสัมพัทธ์ภายในฝั่งทะเลเดียวกัน</span></div>
     <div className="summary-strip">
       <div className="summary-reading"><span><Waves size={17}/>เฝ้าระวังความขุ่น</span><div><strong>{turbidity.percent ?? '—'}<small>%</small></strong><p>{turbidity.count} จาก {turbidity.total} พิกเซล<br/>อยู่ในระดับสูง–สูงมาก</p></div></div>
       <div className="summary-reading"><span><Satellite size={17}/>เฝ้าระวังแพลงก์ตอน</span><div><strong>{bloom.percent ?? '—'}<small>%</small></strong><p>{bloom.count} จาก {bloom.total} พิกเซล<br/>อยู่ในระดับสูง–สูงมาก</p></div></div>
@@ -34,6 +34,7 @@ export default function Overview({data, day, setDay, select}: {data: any; day: n
       })}</div></div>
       <div className="focus-areas"><div className="section-title"><h3>จุดที่ควรจับตา</h3><span>เลือกเพื่อดูรายละเอียดบนแผนที่</span></div><div className="area-table"><div className="area-table-head"><span>จุดอ้างอิง</span><span>ความขุ่น</span><span>บลูม</span></div>{focus.map((a: any) => <button key={a.id} onClick={() => {select(a.id); document.getElementById('forecast-map')?.scrollIntoView({behavior: 'smooth', block: 'start'});}}><span>{a.name}<ArrowUpRight size={13}/></span>{['turbidity', 'bloom'].map(key => <span key={key}><i style={{background: a[key] ? colours[a[key] - 1] : '#d4dfe0'}}/>{a[key] ? levels[a[key] - 1] : 'ข้อมูลไม่พอ'}</span>)}</button>)}</div><p>เปรียบเทียบพิกเซลใกล้จุดอ้างอิง · ความเชื่อมั่นต่ำ</p></div>
     </div>
-    <div className="freshwater-summary"><div><h3>น้ำจืดที่ไหลลงสู่อ่าว</h3><p>ข้อมูลสถานีเหนือน้ำประกอบการเฝ้าระวัง ยังไม่ใช่ยอดสุทธิออกทะเล และยังไม่ใช้คำนวณสีความเสี่ยง</p></div><div className="gauge-list">{data.rivers.stations.length ? data.rivers.stations.map((s: any) => <div key={s.code}><span>{s.name} · {s.code}</span><strong>{numeric(s.dischargeM3s)} <small>ม³/วินาที</small></strong><time>{s.observedAt} น.</time></div>) : <p>ข้อมูลน้ำท่าไม่พร้อมในรอบนี้ ไม่ประมาณเป็นศูนย์</p>}</div></div>
+    <div className="freshwater-summary"><div><h3>ข้อมูลน้ำท่าประกอบ</h3><p>ข้อมูลสถานีเหนือน้ำประกอบการเฝ้าระวัง ยังไม่ใช่ยอดสุทธิออกทะเล และยังไม่ใช้คำนวณสีความเสี่ยง</p></div><div className="gauge-list">{data.rivers.stations.length ? data.rivers.stations.map((s: any) => <div key={s.code}><span>{s.name} · {s.code}</span><strong>{numeric(s.dischargeM3s)} <small>ม³/วินาที</small></strong><time>{s.observedAt} น.</time></div>) : <p>ยังไม่มีสถานีอัตราการไหลที่ใช้แทนพื้นที่นี้ได้ ไม่ประมาณเป็นศูนย์</p>}</div></div>
   </section>;
 }
+

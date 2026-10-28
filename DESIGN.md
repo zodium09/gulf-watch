@@ -182,3 +182,7 @@ Use a pale sea base, warm land, data cells, restrained geographic labels and a d
 - **Don't** render missing observations as the lowest class or as zero.
 - **Don't** add shadows or separate cards to every reference-panel section.
 - **Don't** imply a current observation by removing its date or stale-data state.
+
+## National marine extension
+
+Keep the established coastal desk identity. Add region controls (all Thai EEZ, Gulf, Andaman), physical-unit wave/wind layers, directional arrows at peak hours, and a point forecast table. The EEZ mask clips all coloured cells. Missing satellite data must never hide available wave/wind data. Nationwide sampling is ~12 km from the native ~4 km ocean-colour grid. Forecast colours for wave/wind are value bins, while bloom/turbidity remain relative uncalibrated classes within each basin.
