@@ -2,9 +2,25 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {COASTAL_ZONES,coastalView,inView,nearestCoastalCell,scaleBarKm} from '../lib/coastal-views.mjs';
-import {comparisonSeries,chartDomain,lineSegments} from '../lib/comparison.mjs';
+import {comparisonSeries,comparisonContext,comparisonMean,chartDomain,lineSegments} from '../lib/comparison.mjs';
 import {AREAS} from '../lib/geography.mjs';
 const data=JSON.parse(await readFile(new URL('../public/data/latest.json',import.meta.url),'utf8'));
+test('selection scopes chart options and a clicked pixel is used exactly',()=>{
+ const zone=comparisonContext(data,['PH','KB']);
+ assert.deepEqual(zone.areas.map(a=>a.id),['PH','KB']);
+ const cell=data.cells[100];const point=comparisonContext(data,['PH','KB'],cell.id);
+ const [s]=comparisonSeries(point,['selected-pixel'],'wave');
+ assert.equal(s.cell.id,cell.id);assert.equal(s.distanceKm,0);
+ assert.equal(point.areas.length,1);
+});
+test('mean uses unique cells and fixed membership, with no substitution for missing values',()=>{
+ const a={cell:{id:'a'},values:[0,2,null]},b={cell:{id:'b'},values:[2,4,6]};
+ assert.deepEqual(comparisonMean([a,b,a],3).values,[1,3,null]);
+ assert.equal(comparisonMean([a,b],3).total,2);
+ assert.deepEqual(comparisonMean([a,b],3,'period').values,[null,null,null]);
+ assert.deepEqual(comparisonMean([{cell:{id:'a'},values:[0,2,4]}],3,'period').values,[2,2,2]);
+ assert.deepEqual(comparisonMean([],3).values,[null,null,null]);
+});
 
 test('every coastal window contains its reference areas and marine samples',()=>{
   for(const zone of COASTAL_ZONES){

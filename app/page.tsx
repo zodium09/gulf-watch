@@ -7,8 +7,9 @@ import MarineMap from '../components/MarineMap';
 import ActivityPanel from '../components/ActivityPanel';
 import ForecastChart from '../components/ForecastChart';
 import ComparisonChart from '../components/ComparisonChart';
+import {comparisonContext} from '../lib/comparison.mjs';
 import CoastalNavigator from '../components/CoastalNavigator';
-import {coastalView,inView} from '../lib/coastal-views.mjs';
+import {coastalView,inView,nearestCoastalCell} from '../lib/coastal-views.mjs';
 import Methodology from '../components/Methodology';
 import TurbidityPanel from '../components/TurbidityPanel';
 import {forecastReadiness,defaultForecastDay,localDay} from '../lib/freshness.mjs';
@@ -34,8 +35,8 @@ export default function Home(){
  const filtered=useMemo(()=>{const indices=data.cells.flatMap((c:any,i:number)=>region==='all'||c.region===region?[i]:[]);return {...data,cells:indices.map((i:number)=>data.cells[i]),days:data.days.map((d:any)=>{const cells=indices.map((i:number)=>d.cells[i]);return {...d,cells,validTurbidity:cells.filter((c:any)=>isNumber(c.turbidity)).length,validBloom:cells.filter((c:any)=>isNumber(c.bloom)).length}}),areas:data.areas.filter((a:any)=>region==='all'||a.region===region),rivers:{...data.rivers,stations:region==='andaman'?[]:data.rivers.stations}}},[data,region]);
  const daily=filtered.days[day],area=filtered.areas.find((a:any)=>a.id===areaId)??filtered.areas[0];
  const cells=useMemo(()=>filtered.cells.map((c:any,i:number)=>{const record={...c,...daily.cells[i],assessmentUnavailable:unavailable};const v=category(record,mode);return {...record,colour:v?palette(mode)[v-1]:null}}),[filtered,daily,mode,unavailable]);
- const chosen=point?cells.find((c:any)=>c.id===point)??cells[0]:cells.reduce((a:any,b:any)=>distance(a,area)<distance(b,area)?a:b);
- const choose=(c:any)=>{setPoint(c.id);setAreaId(filtered.areas.reduce((a:any,b:any)=>distance(a,c)<distance(b,c)?a:b).id);setPlaying(false)};
+ const chosen=point?cells.find((c:any)=>c.id===point)??cells[0]:nearestCoastalCell(cells,area)??cells[0];
+ const choose=(c:any)=>{setPoint(c.id);setAreaId(filtered.areas.filter((a:any)=>a.region===c.region).reduce((a:any,b:any)=>distance(a,c)<distance(b,c)?a:b).id);setPlaying(false)};
  const showView=(id:string)=>{const next=coastalView(id,region);if(next.region)setRegion(next.region as keyof typeof REGIONS);setViewId(id);setViewRevision(n=>n+1);setPoint(null);setAreaId(next.areaIds[0]??areaId);setPlaying(false)};
  const select=(id:string)=>showView('area:'+id);
  const compareArea=(id:string)=>{select(id);document.getElementById('forecast-map')?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})};
@@ -74,7 +75,7 @@ export default function Home(){
  <details className="observation"><summary>ข้อมูลดาวเทียมและน้ำท่า</summary><dl><div><dt>SPM · g/m³</dt><dd>{num(chosen.spm)}</dd></div><div><dt>คลอโรฟิลล์ · mg/m³</dt><dd>{num(chosen.chl)}</dd></div></dl><p>SPM {date(chosen.spmDate)}<br/>คลอโรฟิลล์ {date(chosen.chlDate)}<br/>ไม่ใช่ผลตรวจความปลอดภัยของน้ำ</p>{data.rivers.stations.find((s:any)=>s.code===area.gauge)?<p>{data.rivers.stations.filter((s:any)=>s.code===area.gauge).map((s:any)=><span key={s.code}>{s.name} · {num(s.dischargeM3s)} ม³/วินาที<br/>{s.observedAt} น.</span>)}<br/>สถานีเหนือน้ำ ไม่ใช่ยอดสุทธิออกทะเล</p>:<p>ไม่มีสถานีน้ำท่าที่ใช้แทนจุดนี้ได้</p>}</details>
  <button className="download" onClick={download}><ArrowDownToLine size={17}/>ดาวน์โหลดข้อมูล CSV</button></aside></section>
  <div className="data-strip"><span><Clock3 size={15}/>พยากรณ์คำนวณ {when(data.generatedAt)} น.</span><span><Satellite size={15}/>ดาวเทียม {date(data.observationRange[0])}–{date(data.observationRange[1])}</span><span>{data.publicationSource==='local_preview'?'ตัวอย่างจากชุดข้อมูลในเครื่อง · ':''}กริดแสดงผล ~12 กม. · แบบจำลองอากาศหยาบกว่า</span><button onClick={reload} disabled={network==='loading'}><RefreshCw size={14} className={network==='loading'?'spinning':''}/>ตรวจข้อมูลล่าสุด</button></div>
- <ComparisonChart data={data} day={day} setDay={selectDay} onArea={compareArea} viewAreaIds={viewport.areaIds} viewName={viewport.name} warning={stale||failed?readiness.reason:readiness.previousIssue?'ใช้พยากรณ์จากรอบก่อน':''}/>
+ <ComparisonChart key={`${viewId}:${region}:${point??'area'}`} data={comparisonContext(data,viewport.areaIds,point)} initialMetric={mode} day={day} setDay={selectDay} onArea={compareArea} viewAreaIds={viewport.areaIds} viewName={point?'พิกเซลที่เลือกบนแผนที่':viewport.name} warning={stale||failed?readiness.reason:readiness.previousIssue?'ใช้พยากรณ์จากรอบก่อน':''}/>
  <ForecastChart days={pointDays} day={day} setDay={selectDay} areaName={point?'จุดที่เลือก':area.name} mode={mode}/>
  <details className="ecosystem"><summary><span><Layers size={20}/>สำรวจความขุ่น แพลงก์ตอน และน้ำท่า</span><ChevronRight size={20}/></summary><Overview data={filtered} day={day} setDay={selectDay} select={select}/></details>
  <Methodology/>
