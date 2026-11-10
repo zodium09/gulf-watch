@@ -22,14 +22,14 @@ export default function Overview({data, day, setDay, select}: {data: any; day: n
   });
   const focus = [...areas].sort((a: any, b: any) => Math.max(b.turbidity ?? 0, b.bloom ?? 0) - Math.max(a.turbidity ?? 0, a.bloom ?? 0)).slice(0, 4);
   return <section className="overview" aria-label="สรุปข้อมูลประจำวัน">
-    <div className="overview-heading"><h2>ภาพรวมวันที่เลือก</h2><span>{shortDate(data.dates[day])} · ระดับสัมพัทธ์ภายในฝั่งทะเลเดียวกัน</span></div>
+    <div className="overview-heading"><h2>ภาพรวมวันที่เลือก</h2><span>{shortDate(data.dates[day])} · SPM เป็นภาพสังเกตล่าสุด ไม่ใช่ค่าของวันพยากรณ์</span></div>
     <div className="summary-strip">
-      <div className="summary-reading"><span><Waves size={17}/>เฝ้าระวังความขุ่น</span><div><strong>{turbidity.percent ?? '—'}<small>%</small></strong><p>{turbidity.count} จาก {turbidity.total} พิกเซล<br/>อยู่ในระดับสูง–สูงมาก</p></div></div>
+      <div className="summary-reading"><span><Waves size={17}/>อันดับ SPM จากดาวเทียม</span><div><strong>{turbidity.percent ?? '—'}<small>%</small></strong><p>{turbidity.count} จาก {turbidity.total} พิกเซล<br/>อยู่ใน Q4–Q5 ของฝั่งเดียวกัน</p></div></div>
       <div className="summary-reading"><span><Satellite size={17}/>เฝ้าระวังแพลงก์ตอน</span><div><strong>{bloom.percent ?? '—'}<small>%</small></strong><p>{bloom.count} จาก {bloom.total} พิกเซล<br/>อยู่ในระดับสูง–สูงมาก</p></div></div>
-      <div className="summary-explainer"><strong>อ่านสีเป็นสัญญาณให้จับตา</strong><p>เปอร์เซ็นต์คือสัดส่วนพิกเซลที่มีข้อมูล<br/>ไม่ใช่โอกาสเกิดบลูมหรือพื้นที่เสียหาย</p><a href="#method">เข้าใจวิธีประเมิน <ArrowUpRight size={14}/></a></div>
+      <div className="summary-explainer"><strong>SPM เป็นอันดับ ไม่ใช่เกินมาตรฐาน</strong><p>SPM สองชั้นบนมักใกล้ 40% ตามวิธีแบ่ง<br/>ไม่ใช่สัดส่วนมลพิษหรือโอกาสเกิดเหตุ</p><a href="#method">เข้าใจวิธีประเมิน <ArrowUpRight size={14}/></a></div>
     </div>
     <div className="dashboard-details">
-      <div className="outlook"><div className="section-title"><h3>แนวโน้ม 6 วัน</h3><span>สัดส่วนพิกเซลเฝ้าระวังระดับสูง–สูงมาก</span></div><div className="outlook-legend"><span><i/>ความขุ่น</span><span><i/>แพลงก์ตอน</span><span>0–100%</span></div><div className="outlook-chart">{data.days.map((d: any, i: number) => {
+      <div className="outlook"><div className="section-title"><h3>แนวโน้ม 6 วัน</h3><span>SPM คงภาพสังเกตเดิม · CHL ใช้กฎคัดกรอง</span></div><div className="outlook-legend"><span><i/>SPM สังเกต</span><span><i/>แพลงก์ตอน</span><span>0–100%</span></div><div className="outlook-chart">{data.days.map((d: any, i: number) => {
         const t = high(d.cells, 'turbidity'), b = high(d.cells, 'bloom');
         return <button key={d.date} onClick={() => setDay(i)} className={day === i ? 'chosen' : ''} aria-pressed={day === i} aria-label={`${shortDate(d.date)} ความขุ่น ${t.percent ?? 'ไม่มีข้อมูล'} เปอร์เซ็นต์ แพลงก์ตอน ${b.percent ?? 'ไม่มีข้อมูล'} เปอร์เซ็นต์`}><div className="bar-pair"><div><span>{t.percent ?? '—'}</span><i style={{height: `${t.percent ?? 0}%`}}/></div><div><span>{b.percent ?? '—'}</span><i style={{height: `${b.percent ?? 0}%`}}/></div></div><strong>{shortDate(d.date)}</strong></button>;
       })}</div></div>

@@ -35,3 +35,16 @@ test('missing satellite data does not remove real wave/wind forecasts',()=>{
  const bad=structuredClone(data);bad.days[0].cells[0].windDirection=500;
  assert.throws(()=>validateSnapshot(bad,new Date(data.generatedAt)));
 });
+
+test('published SPM remains observed across dates and does not depend on weather coverage',()=>{
+ const s=structuredClone(data);
+ const index=s.cells.findIndex(c=>c.spm!==null&&c.spmUncertainty!==null);
+ const expected=s.days[0].cells[index].turbidity;
+ s.days[0].cells[index].forcingValid=false;
+ s.days[0].cells[index].sst=null;
+ s.days[0].cells[index].bloom=null;
+ const validated=validateSnapshot(s,new Date(data.generatedAt));
+ assert.equal(validated.days[0].cells[index].turbidity,expected);
+ assert(data.days.every(d=>d.cells[index].turbidity===expected));
+ assert.equal(validated.turbidityMethod,'spm-observed-relative-v2');
+});

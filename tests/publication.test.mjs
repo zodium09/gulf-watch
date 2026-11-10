@@ -26,7 +26,7 @@ test('a failed source preserves the last successful snapshot and records failure
 test('public read uses updated GitHub data and reports stale data without redating it', async () => {
   const now = new Date(snapshot.generatedAt);
   assert.equal(publication(snapshot, {state: 'succeeded'}, now).isStale, false);
-  assert.equal(publication(snapshot, {}, new Date(+now + 86400000)).isStale, true);
+  assert.equal(publication(snapshot, {}, new Date(+now + 37*3600000)).isStale, true);
   const data = await readPublication(snapshot, async url => Response.json(url.endsWith('latest.json') ? snapshot : {state: 'succeeded'}));
   assert.equal(data.publicationSource, 'github');
   assert.equal(data.issueDate, snapshot.issueDate);
