@@ -1,7 +1,9 @@
 {
-  "state": "succeeded",
+  "state": "failed",
+  "attemptedIssueDate": "2026-11-17",
+  "startedAt": "2026-11-17T07:53:28.825Z",
+  "completedAt": "2026-11-17T07:53:56.084Z",
+  "retainedPrevious": true,
   "issueDate": "2026-11-16",
-  "startedAt": "2026-11-16T06:25:06.670Z",
-  "completedAt": "2026-11-16T06:25:20.041Z",
-  "retainedPrevious": false
+  "error": "fetch failed"
 }
