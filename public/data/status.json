@@ -1,7 +1,9 @@
 {
-  "state": "succeeded",
+  "state": "failed",
+  "attemptedIssueDate": "2026-11-20",
+  "startedAt": "2026-11-20T07:12:35.317Z",
+  "completedAt": "2026-11-20T07:14:58.480Z",
+  "retainedPrevious": true,
   "issueDate": "2026-11-19",
-  "startedAt": "2026-11-19T07:22:25.640Z",
-  "completedAt": "2026-11-19T07:22:47.186Z",
-  "retainedPrevious": false
+  "error": "The operation was aborted due to timeout"
 }
